@@ -1,0 +1,45 @@
+version: '3.3'
+services:
+  mongo_db:
+    image: mongo:3.2
+    container_name: 'crawler_db'
+    volumes:
+      - post_db:/data/db
+    networks:
+      back_net:
+        ipv4_address: 10.0.2.2
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    volumes:
+      - rabbit:/var
+    networks:
+      back_net:
+        ipv4_address: 10.0.2.3
+
+  crawler:
+    image: yc-user/crawler:1.0
+    networks:
+      back_net:
+        ipv4_address: 10.0.2.4
+  ui:
+    image: yc-user/ui:1.0
+    ports:
+      -  8000:8000/tcp
+    networks:
+      back_net:
+        ipv4_address: 10.0.2.5
+
+
+volumes:
+  post_db:
+  rabbit:
+
+networks:
+  back_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${BACKNET}
