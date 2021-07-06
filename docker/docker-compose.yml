@@ -19,12 +19,12 @@ services:
         ipv4_address: 10.0.2.3
 
   crawler:
-    image: yc-user/crawler:1.0
+    image: ./src/crawler/
     networks:
       back_net:
         ipv4_address: 10.0.2.4
   ui:
-    image: yc-user/ui:1.0
+    build: ./src/crawler/
     ports:
       -  8000:8000/tcp
     networks:
