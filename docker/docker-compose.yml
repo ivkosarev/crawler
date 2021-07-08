@@ -55,6 +55,21 @@ services:
         back_net:
            ipv4_address: 10.0.2.10
 
+  node-exporter:
+            image: prom/node-exporter:v0.15.2
+            user: root
+            volumes:
+              - /proc:/host/proc:ro
+              - /sys:/host/sys:ro
+              - /:/rootfs:ro
+            command:
+              - '--path.procfs=/host/proc'
+              - '--path.sysfs=/host/sys'
+              - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+            networks:
+                back_net:
+                   ipv4_address: 10.0.2.11
+
 volumes:
   post_db:
   rabbit:
