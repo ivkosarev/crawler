@@ -12,6 +12,9 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: 'rabbitmq'
+    depends_on:
+      - mongo_db
+
     volumes:
       - rabbit:/var
     networks:
@@ -20,6 +23,8 @@ services:
 
   ui:
     build: ../src/ui/
+    depends_on:
+      - mongo_db
     ports:
       -  8000:8000/tcp
     networks:
@@ -28,9 +33,13 @@ services:
 
   crawler:
      build: ../src/crawler/
+     depends_on:
+      - mongo_db
+      - rabbitmq
      networks:
         back_net:
           ipv4_address: 10.0.2.4
+
 
 
 volumes:

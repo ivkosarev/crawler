@@ -31,4 +31,5 @@ RUN pip3 install -r requirements.txt
 
 #CMD bash
 #ENTRYPOINT ["python3", "-u","crawler.py","https://vitkhab.github.io/search_engine_test_site/"]
-CMD sleep 30 && python3 -u crawler.py https://vitkhab.github.io/search_engine_test_site/
+#CMD sleep 30 && python3 -u crawler.py https://vitkhab.github.io/search_engine_test_site/
+CMD python3 -u crawler.py https://vitkhab.github.io/search_engine_test_site/
