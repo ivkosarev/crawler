@@ -14,7 +14,7 @@ ADD requirements.txt $APP_HOME/ui
 WORKDIR $APP_HOME/ui
 RUN pip install -r requirements.txt
 
-ENV MONGO mongo_db
+ENV MONGO crawler_db
 ENV MONGO_PORT 27017
 
 
