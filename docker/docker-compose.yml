@@ -35,10 +35,7 @@ services:
      build: ../src/crawler/
      depends_on:
       - mongo_db
-<<<<<<< HEAD
       - rabbitmq
-=======
->>>>>>> be35f94cd7271558eb9dc7fa15e435c40234bc85
      networks:
         back_net:
           ipv4_address: 10.0.2.4
