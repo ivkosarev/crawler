@@ -39,12 +39,27 @@ services:
      networks:
         back_net:
           ipv4_address: 10.0.2.4
-
-
+  
+  prometheus:
+      build: ../monitoring/prometheus/
+      # image: mzabolotnov/prometheus
+      ports:
+        - '9090:9090'
+      volumes:
+        - prometheus_data:/prometheus
+      command: # Передаем доп параметры в командной строке
+            - '--config.file=/etc/prometheus/prometheus.yml'
+            - '--storage.tsdb.path=/prometheus'
+            - '--storage.tsdb.retention=1d' # Задаем время хранения метрик в 1 день
+      networks:
+        back_net:
+           ipv4_address: 10.0.2.10
 
 volumes:
   post_db:
   rabbit:
+  prometheus_data:
+
 
 networks:
   back_net:
