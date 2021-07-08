@@ -24,7 +24,7 @@ services:
       back_net:
         ipv4_address: 10.0.2.4
   ui:
-    build: ../src/ui_crawler/
+    build: ../src/ui/
     ports:
       -  8000:8000/tcp
     networks:
