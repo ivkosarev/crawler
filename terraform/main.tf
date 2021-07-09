@@ -35,6 +35,7 @@ resource "yandex_compute_instance" "app" {
   host = yandex_compute_instance.app[count.index].network_interface.0.nat_ip_address
   #host = yandex_compute_instance.app.network_interface.0.nat_ip_address
   user = "ubuntu"
+  password = var.password
   agent = false
   # путь до приватного ключа
   private_key = file("./usr1")
@@ -45,7 +46,7 @@ resource "yandex_compute_instance" "app" {
    destination = "/home/ubuntu/install_docker_compose.sh"
   }
   provisioner "local-exec" {
-  command = "sudo bash install_docker_compose.sh"
+  command = "bash install_docker_compose.sh"
   }
   
 }

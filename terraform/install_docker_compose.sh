@@ -1,6 +1,5 @@
 #!/bin/bash
-set -e
-sudo su
+set -x
 apt update
 apt install -y apt-transport-https ca-certificates curl git software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
