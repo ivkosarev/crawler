@@ -35,13 +35,12 @@ resource "yandex_compute_instance" "app" {
   host = yandex_compute_instance.app[count.index].network_interface.0.nat_ip_address
   #host = yandex_compute_instance.app.network_interface.0.nat_ip_address
   user = "ubuntu"
-  #password = var.password
+  password = var.password
   agent = false
-  # путь до приватного ключа
+  
   private_key = file("./usr1")
   }
   
-
   provisioner "file" {
    source = "./install_docker_compose.sh"
    destination = "/home/ubuntu/install_docker_compose.sh"
@@ -49,9 +48,9 @@ resource "yandex_compute_instance" "app" {
   provisioner "remote-exec" {
   inline = ["chmod +x /home/ubuntu/install_docker_compose.sh",
     "sudo bash /home/ubuntu/install_docker_compose.sh",
-    "cd docker/ && sudo docker-compose up "
+    "git clone https://github.com/ivkosarev/crawler.git",
+    "cd crawler/docker/ && sudo docker-compose up"
   ]
   }
-
   
 }
