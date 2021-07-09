@@ -2,3 +2,5 @@
 */usr1.pub
 */usr1
 */terraform.tfvars
+*/.terraform
+*/.terraform/*
