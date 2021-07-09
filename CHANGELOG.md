@@ -28,4 +28,10 @@
 
 [0.0.2] - 2021-07-08
 
-- Исправлен запуст приложения целиком crawler+ui [mzabolotnov] (https://github.com/mzabolotnov)
+### Fix
+
+- Исправлена ошибка запуска приложения целиком (crawler+ui) [mzabolotnov] (https://github.com/mzabolotnov)
+
+### Added
+
+- добавлена система мониторинга, развернуты контейнеры prometheus, node-exporter, cadvisor [mzabolotnov] (https://github.com/mzabolotnov)
