@@ -22,6 +22,7 @@ resource "yandex_compute_instance" "app" {
     initialize_params {
   
       image_id = var.image_id
+      size     = 10   
     }
   }
 
