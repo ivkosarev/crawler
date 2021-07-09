@@ -21,7 +21,7 @@
 
 ### Added
 
-- Добавлен запуск GitLab
+- Добавлен запуск GitLab от [geckonoff] (https://github.com/geckonoff)
 
 [0.0.2] - 2021-07-08
 
