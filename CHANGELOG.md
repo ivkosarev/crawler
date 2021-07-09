@@ -29,6 +29,11 @@
 
 - Исправлен запуст приложения целиком crawler+ui [mzabolotnov] (https://github.com/mzabolotnov)
 
+### Added
+
+- Добавлен запуск системы мониторинга prometheus + node-exporter + cadvisor [mzabolotnov] (https://github.com/mzabolotnov)
+
+
 [0.0.1] - 2021-07-06
 
 ### Added
