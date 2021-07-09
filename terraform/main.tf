@@ -41,12 +41,12 @@ resource "yandex_compute_instance" "app" {
   private_key = file("./usr1")
   }
   
-  provisioner "file" {
-   source = "./install_docker_compose.sh"
-   destination = "/home/ubuntu/install_docker_compose.sh"
-  }
-  provisioner "local-exec" {
-  command = "bash install_docker_compose.sh"
-  }
+  #provisioner "file" {
+  # source = "./install_docker_compose.sh"
+  # destination = "/home/ubuntu/install_docker_compose.sh"
+  #}
+  #provisioner "local-exec" {
+  #command = "bash install_docker_compose.sh"
+  #}
   
 }
