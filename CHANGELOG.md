@@ -35,8 +35,12 @@
 
 
 [0.0.1] - 2021-07-06
+### Added
+Добавлен терраформ от ivkosarev
+
 
 ### Added
+
 
 - Добавлен запуск crawler от [geckonoff] (https://github.com/geckonoff)
 
