@@ -23,6 +23,11 @@
 
 - Добавлен запуск GitLab
 
+[0.0.2] - 2021-07-08
+
+### Fixed
+
+- Исправлен запуст приложения целиком crawler+ui [mzabolotnov] (https://github.com/mzabolotnov)
 
 [0.0.1] - 2021-07-06
 
@@ -33,7 +38,3 @@
 ### Added
 
 - Добавлен запуск ui от [mzabolotnov] (https://github.com/mzabolotnov)
-
-[0.0.2] - 2021-07-08
-
-- Исправлен запуст приложения целиком crawler+ui [mzabolotnov] (https://github.com/mzabolotnov)
