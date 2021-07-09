@@ -6,7 +6,7 @@ provider "yandex" {
 }
 resource "yandex_compute_instance" "app" {
   count = var.instances_count
-  name  = "reddit-app${count.index}"
+  name  = "crawler${count.index}"
 
   resources {
     cores         = 2
@@ -40,9 +40,8 @@ resource "yandex_compute_instance" "app" {
   private_key = file("./usr1")
   }
 
-  provisioner "local-exec" {
-   command = "sudo bash install_docker_compose.sh" 
-   
+  provisioner "remote-exec" {
+  script = "./install_docker_compose.sh"
   }
   
 }
