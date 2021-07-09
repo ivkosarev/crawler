@@ -45,8 +45,10 @@ resource "yandex_compute_instance" "app" {
    source = "./install_docker_compose.sh"
    destination = "/home/ubuntu/install_docker_compose.sh"
   }
-  provisioner "local-exec" {
-  command = "bash install_docker_compose.sh"
+  provisioner "remote-exec" {
+  inline = ["chmod +x /home/ubuntu/install_docker_compose.sh",
+    "sudo bash /home/ubuntu/install_docker_compose.sh"
+  ]
   }
   
 }
