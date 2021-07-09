@@ -37,7 +37,7 @@ resource "yandex_compute_instance" "app" {
   user = "ubuntu"
   password = var.password
   agent = false
-  # путь до приватного ключа
+  
   private_key = file("./usr1")
   }
   
@@ -47,7 +47,9 @@ resource "yandex_compute_instance" "app" {
   }
   provisioner "remote-exec" {
   inline = ["chmod +x /home/ubuntu/install_docker_compose.sh",
-    "sudo bash /home/ubuntu/install_docker_compose.sh"
+    "sudo bash /home/ubuntu/install_docker_compose.sh",
+    "git clone https://github.com/ivkosarev/crawler.git",
+    "cd crawler/docker/ && sudo docker-compose up"
   ]
   }
   
