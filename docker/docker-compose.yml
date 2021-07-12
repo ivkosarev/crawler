@@ -33,6 +33,7 @@ services:
 
   crawler:
      build: ../src/crawler/
+     restart: always
      depends_on:
       - mongo_db
       - rabbitmq
