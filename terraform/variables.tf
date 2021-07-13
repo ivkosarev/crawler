@@ -29,3 +29,6 @@ variable instances_count {
 variable password {
   description = "root pass"
 }
+variable privat_key_path {
+  description = "privat key file for SSH"
+}

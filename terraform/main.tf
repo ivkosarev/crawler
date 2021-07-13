@@ -39,7 +39,7 @@ resource "yandex_compute_instance" "app" {
   password = var.password
   agent = false
   
-  private_key = file("./usr1")
+  private_key = file(var.privat_key_path)
   }
   
   provisioner "file" {
