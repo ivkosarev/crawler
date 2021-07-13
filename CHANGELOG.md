@@ -21,7 +21,7 @@
 
 ### Added
 
-- Добавлен запуск GitLab
+- Добавлен запуск GitLab от [geckonoff] (https://github.com/geckonoff)
 
 [0.0.2] - 2021-07-08
 
@@ -35,8 +35,12 @@
 
 
 [0.0.1] - 2021-07-06
-
 ### Added
+Добавлен терраформ от ivkosarev (https://github.com/ivkosarev/)
+
+
+### Added 
+
 
 - Добавлен запуск crawler от [geckonoff] (https://github.com/geckonoff)
 
