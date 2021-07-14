@@ -1,0 +1,35 @@
+image: tmaier/docker-compose:latest
+stages:
+ - validate
+ - build
+ - deploy
+
+Validate-docker-compose:
+  stage: validate
+  services:
+    - docker:dind
+  script:
+    - cd ./docker
+    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
+
+Build_images:
+  stage: build
+  services:
+   - docker:dind
+  before_script:
+   - docker info
+   - docker-compose --version
+  script:
+   - cd docker
+   - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
+   - docker images
+
+Start_crawler:
+   stage: deploy
+   services:
+   - docker:dind
+   script:
+     - cd docker
+     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml up -d
+     - docker ps
+   when: manual
