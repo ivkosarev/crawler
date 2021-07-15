@@ -1,0 +1,7 @@
+cloud_id                 = ""
+folder_id                = ""
+zone                     = "ru-central1-a"
+image_id                 = "fd80viupr3qjr5g6g9du" #ubuntu18LTS, yc compute image list --folder-id standard-images
+public_key_path          = "usr1.pub"
+subnet_id                = "" #моя зона для ru-central1-a, yc vpc subnet list
+service_account_key_file = "key.json"
