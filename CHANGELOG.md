@@ -15,7 +15,11 @@
 
 - исправление ошибок
 
+[0.0.4] - 2021-07-15
 
+### Added
+
+- Добавлен старт проекта с помощью terraform и ansible от [geckonoff] (https://github.com/geckonoff)
 
 [0.0.3] - 2021-07-09
 
