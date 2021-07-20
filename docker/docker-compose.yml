@@ -33,7 +33,7 @@ services:
 
   crawler:
      build: ../src/crawler/
-     restart: always
+    #  restart: always
      depends_on:
       - mongo_db
       - rabbitmq
@@ -83,4 +83,5 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: ${BACKNET}
+        - subnet: 10.0.2.0/24
+        # - subnet: ${BACKNET}
