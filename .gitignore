@@ -9,3 +9,6 @@
 */terraform.tfstate.backup
 */.terraform.lock.hcl
 inventory
+terraform_ansible/versions.tf
+docker/.env
+
