@@ -11,4 +11,4 @@
 inventory
 terraform_ansible/versions.tf
 docker/.env
-
+terraform/.terraform.tfstate.lock.info
