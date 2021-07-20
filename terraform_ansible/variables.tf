@@ -26,3 +26,6 @@ variable instances_count {
   description = "How many instances"
   default     = 1
 }
+variable privat_key_path {
+  description = "Privat ssh-access key"
+}

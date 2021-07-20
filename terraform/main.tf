@@ -36,7 +36,7 @@ resource "yandex_compute_instance" "app" {
   host = yandex_compute_instance.app[count.index].network_interface.0.nat_ip_address
   #host = yandex_compute_instance.app.network_interface.0.nat_ip_address
   user = "ubuntu"
-  password = var.password
+  # password = var.password
   agent = false
   
   private_key = file(var.privat_key_path)
@@ -49,8 +49,15 @@ resource "yandex_compute_instance" "app" {
   provisioner "remote-exec" {
   inline = ["chmod +x /home/ubuntu/install_docker_compose.sh",
     "sudo bash /home/ubuntu/install_docker_compose.sh",
-    "git clone https://github.com/ivkosarev/crawler.git",
-    "cd crawler/docker/ && sudo docker-compose up"
+    "sudo usermod -a -G docker ubuntu"
+  ]
+  }
+  provisioner "remote-exec" {
+  inline = ["git clone --branch mzabolotnov https://github.com/ivkosarev/crawler.git",
+    "cd crawler/docker/ && docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml up -d",
+    "echo 'Pause 20s...'",
+    "sleep 20",
+    "docker ps"
   ]
   }
   
