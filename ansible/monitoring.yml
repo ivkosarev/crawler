@@ -1,0 +1,12 @@
+---
+- name: Configure node docker
+  hosts: app
+  become: true
+  tasks:
+    - name: Monitoring up
+      docker_compose:
+        project_src: /srv/crawler/docker
+        files:
+          - docker-compose-monitoring.yml
+        state: present
+

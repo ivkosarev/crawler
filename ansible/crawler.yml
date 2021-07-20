@@ -1,0 +1,20 @@
+---
+- name: Configure node docker
+  hosts: app
+  become: true
+  vars:
+    check_int: 5
+    exclud_addr: "'*.github.com'"
+    deploy_user: ubuntu
+  tasks:
+    - name: Crawler up
+      docker_compose:
+        project_src: /srv/crawler/docker
+        state: present
+        
+    - name: Add crawler config
+      template:
+        src: crawler-docker-tmpl.j2
+        dest: /srv/crawler/src/crawler/Dockerfile
+        owner: "{{ deploy_user  }}"
+        group: "{{ deploy_user  }}"
