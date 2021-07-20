@@ -53,7 +53,7 @@ resource "yandex_compute_instance" "app" {
   ]
   }
   provisioner "remote-exec" {
-  inline = ["git clone https://github.com/ivkosarev/crawler.git",
+  inline = ["git clone --branch mzabolotnov https://github.com/ivkosarev/crawler.git",
     "cd crawler/docker/ && docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml up -d",
     "echo 'Pause 20s...'",
     "sleep 20",
