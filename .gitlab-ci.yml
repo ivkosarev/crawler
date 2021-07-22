@@ -56,7 +56,6 @@ terraform_plan:
    - cd ${TF_ROOT}
    - ls -la
    - echo ${CI_API_V4_URL}
-   - ls -la ${CI_API_V4_URL}
    - echo ${CI_PROJECT_DIR}
    - echo ${CI_PROJECT_ID}
  script:
