@@ -63,6 +63,8 @@ terraform_plan:
     - gitlab-terraform validate
     - mv terraform.tfvars.example terraform.tfvars
     - mv key.json.example key.json
+    - touch usr1.pub
+    - touch usr1
     - gitlab-terraform plan
     - gitlab-terraform plan-json
  artifacts:
