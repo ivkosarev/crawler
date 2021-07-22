@@ -33,12 +33,37 @@ test_crawler:
     - coverage run -m unittest discover -s tests/
     - coverage report --include ui/ui.py > $APP_HOME/report_test_search_engine_ui.txt
     - cp -f $APP_HOME/report_test_search_engine_ui.txt ${CI_PROJECT_DIR}
-    
+  
+  when: manual
+
   artifacts:
     paths:
     - ${CI_PROJECT_DIR}/report_test_search_engine_crawler.txt
     - ${CI_PROJECT_DIR}/report_test_search_engine_ui.txt
     expire_in: 1 week
+  
+terraform_plan:
+ stage: test
+ image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+ cache:
+    key: example-production
+    paths:
+      - ${TF_ROOT}/.terraform
+ variables:
+  TF_ROOT: ${CI_PROJECT_DIR}/environments/example/production
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/example-production
+before_script:
+  - cd ${TF_ROOT}
+  - ls -la
+  - echo ${CI_API_V4_URL}
+  - ls -la ${CI_API_V4_URL}
+  - echo ${CI_PROJECT_DIR}
+  - echo ${CI_PROJECT_ID}
+ script:
+    - gitlab-terraform init
+    - gitlab-terraform validate
+
+
     
 Validate-docker-compose:
   stage: validate
@@ -47,6 +72,7 @@ Validate-docker-compose:
   script:
     - cd ./docker
     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
+  when: manual
 
 Build_images:
   stage: build
@@ -59,6 +85,8 @@ Build_images:
    - cd docker
    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
    - docker images
+  
+  when: manual
 
 Start_crawler_dev:
    stage: deploy
