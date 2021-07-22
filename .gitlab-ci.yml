@@ -70,5 +70,5 @@ Start_crawler_dev:
      - docker ps
    when: manual
    environment:
-     name: dev
-     url: http://dev.example.com:8000
+      name: branch/$CI_COMMIT_REF_NAME
+      url: http://$CI_ENVIRONMENT_SLUG.example.com:8000
