@@ -24,7 +24,7 @@ test_crawler:
     - coverage run -m unittest discover -s tests/
     - coverage report --include crawler/crawler.py > $APP_HOME/report_test_search_engine_crawler.txt
     - cp -f $APP_HOME/report_test_search_engine_crawler.txt ${CI_PROJECT_DIR}
-    # - cat /app/search_engine_crawler/report_test_search_engine_crawler.txt
+    
 
     - cd $APP_HOME/search_engine_ui
     - pip install -r requirements.txt -r requirements-test.txt
@@ -33,11 +33,7 @@ test_crawler:
     - coverage run -m unittest discover -s tests/
     - coverage report --include ui/ui.py > $APP_HOME/report_test_search_engine_ui.txt
     - cp -f $APP_HOME/report_test_search_engine_ui.txt ${CI_PROJECT_DIR}
-    # - echo "Вот так..."
-    # - cat $APP_HOME/report_test_search_engine_crawler.txt
-    # - cat $APP_HOME/report_test_search_engine_ui.txt
-    # - ls /app
-    # - echo ${CI_PROJECT_DIR}
+    
   artifacts:
     paths:
     - ${CI_PROJECT_DIR}/report_test_search_engine_crawler.txt
@@ -64,7 +60,7 @@ Build_images:
    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
    - docker images
 
-Start_crawler:
+Start_crawler_dev:
    stage: deploy
    services:
    - docker:dind
@@ -73,3 +69,6 @@ Start_crawler:
      - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml up -d
      - docker ps
    when: manual
+   environment:
+     name: dev
+     url: http://dev.example.com:8000
