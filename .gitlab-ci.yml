@@ -61,6 +61,7 @@ terraform_plan:
  script:
     - gitlab-terraform init
     - gitlab-terraform validate
+    - mv terraform.tfvars.example terraform.tfvars
     - gitlab-terraform plan
     - gitlab-terraform plan-json
  artifacts:
