@@ -50,8 +50,8 @@ terraform_plan:
     paths:
       - ${TF_ROOT}/.terraform
  variables:
-  TF_ROOT: ${CI_PROJECT_DIR}/environments/example/production
-  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/example-production
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform
  before_script:
    - cd ${TF_ROOT}
    - ls -la
