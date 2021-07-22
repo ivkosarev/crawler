@@ -61,7 +61,14 @@ terraform_plan:
  script:
     - gitlab-terraform init
     - gitlab-terraform validate
-
+    - gitlab-terraform plan
+    - gitlab-terraform plan-json
+ artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
 
     
 Validate-docker-compose:
