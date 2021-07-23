@@ -3,11 +3,17 @@ Crawler
 ***
  Здесь представлено как поднять в Яндекс клауде виртуальный хост с поднятыми контейнерами:
  1.mongo_db
+
  2.rabbitmq
+ 
  3.crawler
+ 
  4.ui
+ 
  5.prometheus
+ 
  6.node-exporter
+ 
  7.cadvisor
 ***
 git clone
