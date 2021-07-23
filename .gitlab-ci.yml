@@ -1,9 +1,80 @@
 image: tmaier/docker-compose:latest
 stages:
+ - test
  - validate
  - build
  - deploy
 
+test_crawler:
+  stage: test
+  # after_script:
+  #   - pwd
+  #   - ls -al
+  #   - ls -al ${CI_PROJECT_DIR}
+  image: mzabolotnov/test_crawler:1.0
+  script:
+    - cd $APP_HOME
+    - git clone https://github.com/express42/search_engine_crawler.git
+    - git clone https://github.com/express42/search_engine_ui.git
+    
+    - cd $APP_HOME/search_engine_crawler
+    - pip3 install -r requirements.txt -r requirements-test.txt
+    - echo "Тестирование кода...search_engine_crawler"
+    - python3 -m unittest discover -s tests/
+    - coverage run -m unittest discover -s tests/
+    - coverage report --include crawler/crawler.py > $APP_HOME/report_test_search_engine_crawler.txt
+    - cp -f $APP_HOME/report_test_search_engine_crawler.txt ${CI_PROJECT_DIR}
+    
+
+    - cd $APP_HOME/search_engine_ui
+    - pip install -r requirements.txt -r requirements-test.txt
+    - echo "Тестирование кода...search_engine_ui"
+    - python -m unittest discover -s tests/
+    - coverage run -m unittest discover -s tests/
+    - coverage report --include ui/ui.py > $APP_HOME/report_test_search_engine_ui.txt
+    - cp -f $APP_HOME/report_test_search_engine_ui.txt ${CI_PROJECT_DIR}
+  
+  when: manual
+
+  artifacts:
+    paths:
+    - ${CI_PROJECT_DIR}/report_test_search_engine_crawler.txt
+    - ${CI_PROJECT_DIR}/report_test_search_engine_ui.txt
+    expire_in: 1 week
+  
+terraform_plan:
+ stage: test
+ image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+ cache:
+    key: example-production
+    paths:
+      - ${TF_ROOT}/.terraform
+ variables:
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform
+ before_script:
+   - cd ${TF_ROOT}
+   - ls -la
+   - echo ${CI_API_V4_URL}
+   - echo ${CI_PROJECT_DIR}
+   - echo ${CI_PROJECT_ID}
+ script:
+    - gitlab-terraform init
+    - gitlab-terraform validate
+    - mv terraform.tfvars.example terraform.tfvars
+    - mv key.json.example key.json
+    - touch usr1.pub
+    - touch usr1
+    - gitlab-terraform plan
+    - gitlab-terraform plan-json
+ artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
+
+    
 Validate-docker-compose:
   stage: validate
   services:
@@ -11,6 +82,7 @@ Validate-docker-compose:
   script:
     - cd ./docker
     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
+  when: manual
 
 Build_images:
   stage: build
@@ -23,8 +95,10 @@ Build_images:
    - cd docker
    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
    - docker images
+  
+  when: manual
 
-Start_crawler:
+Start_crawler_dev:
    stage: deploy
    services:
    - docker:dind
@@ -33,3 +107,6 @@ Start_crawler:
      - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml up -d
      - docker ps
    when: manual
+   environment:
+      name: branch/$CI_COMMIT_REF_NAME
+      url: http://$CI_ENVIRONMENT_SLUG.example.com:8000

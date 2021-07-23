@@ -5,4 +5,4 @@ image_id                 = "fd80viupr3qjr5g6g9du" #ubuntu18LTS, yc compute image
 public_key_path          = "usr1.pub"
 subnet_id                = "" #моя зона для ru-central1-a, yc vpc subnet list
 service_account_key_file = "key.json"
-privat_key_path = "/home/user/.ssh/usr1"
+privat_key_path = "usr1"
