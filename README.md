@@ -17,8 +17,11 @@ Crawler
  
  7.cadvisor
 ***
+
 git clone
+
 cd terraform  
+
 terraform apply
 ***
 Перед запуском надо в папке терраформа заполнить файл terraform.tfvars(пример в terraform.tfvars.example, вся инфа берется из вашего яндекс.клауда)
