@@ -1,7 +1,8 @@
 ***
 Crawler
 ***
- Здесь представлено как поднять в Яндекс клауде виртуальный хост с поднятыми контейнерами:
+ Здесь представлено как поднять сервис crawler с помощью docker+terraform+ansible.
+ Контейнеры:
  
  1.mongo_db
 
@@ -18,11 +19,9 @@ Crawler
  7.cadvisor
 ***
 
-git clone
+Поднять докеры локально: cd docker && docker-compose up
+В Yandex.Cloud: cd terraform && terraform apply
 
-cd terraform  
-
-terraform apply
 ***
 Перед запуском надо в папке терраформа заполнить файл terraform.tfvars(пример в terraform.tfvars.example, вся инфа берется из вашего яндекс.клауда)
 
