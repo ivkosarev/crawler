@@ -20,6 +20,8 @@ Crawler
 ***
 
 Поднять докеры локально: cd docker && docker-compose up
+
+
 В Yandex.Cloud: cd terraform && terraform apply
 
 ***
@@ -27,5 +29,6 @@ Crawler
 
 
 В конце терраформ выплюнет в stdout айпишник тачки, либо его можно найти в своем compute cloud.
+
 На порту 8000 торчит веб-морда кравлера, оно даже чето там ищет.
 ***
