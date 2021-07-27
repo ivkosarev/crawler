@@ -1,4 +1,4 @@
-#FROM alexdo/python-2.4-alpine
+FROM alexdo/python-2.4-alpine
 FROM python:3.6-alpine
 # FROM ubuntu:18.04
 

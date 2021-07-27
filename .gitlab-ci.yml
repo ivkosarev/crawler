@@ -4,6 +4,7 @@ stages:
  - validate
  - build
  - deploy
+ - destroy
 
 test_crawler:
   stage: test
@@ -73,6 +74,7 @@ terraform_plan:
       - ${TF_ROOT}/plan.cache
     reports:
       terraform: ${TF_ROOT}/plan.json
+ when: manual
 
     
 Validate-docker-compose:
@@ -84,7 +86,7 @@ Validate-docker-compose:
     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
   when: manual
 
-Build_images:
+Build_images_docker_compose:
   stage: build
   services:
    - docker:dind
@@ -94,6 +96,23 @@ Build_images:
   script:
    - cd docker
    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
+   - docker images
+  
+  when: manual
+
+Build_images_docker_images:
+  stage: build
+  services:
+   - docker:dind
+  before_script:
+   - docker info
+  script:
+   - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
+   - docker build -t mzabolotnov/crawler:k8s_ci_1.0 src/crawler
+   - docker build -t mzabolotnov/ui:k8s_ci_1.0 src/ui
+   - docker push mzabolotnov/crawler:k8s_ci_1.0
+   - docker push mzabolotnov/ui:k8s_ci_1.0
+  #  - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
    - docker images
   
   when: manual
@@ -110,3 +129,50 @@ Start_crawler_dev:
    environment:
       name: branch/$CI_COMMIT_REF_NAME
       url: http://$CI_ENVIRONMENT_SLUG.example.com:8000
+
+deploy_k8s:
+  # image: gcr.io/cloud-builders/kubectl:latest
+  image: mzabolotnov/kubectl:2.0
+  stage: deploy
+  before_script:
+    - echo $KUBE_URL
+    - echo $CI_PROJECT_DIR
+  script:
+    - cd k8s_crawler/crawler
+    - pwd
+    - echo $KUBE_URL
+    - echo $CI_PROJECT_DIR
+    - kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=k8s --user=admin
+    - kubectl config use-context default
+    - kubectl config view
+    - kubectl get nodes
+    # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
+    - kubectl apply -f .
+    - kubectl get pods
+  when: manual
+  only:
+    - k8s_yc_ci
+
+destroy_k8s:
+  # image: gcr.io/cloud-builders/kubectl:latest
+  image: mzabolotnov/kubectl:2.0
+  stage: destroy
+  before_script:
+    - echo $KUBE_URL
+    - echo $CI_PROJECT_DIR
+  script:
+    - cd k8s_crawler/crawler
+    - echo $KUBE_URL
+    - kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=k8s --user=admin
+    - kubectl config use-context default
+    - kubectl get pods
+    # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
+    - kubectl delete -f .
+    - kubectl get pods
+  when: manual
+  only:
+    - k8s_yc_ci

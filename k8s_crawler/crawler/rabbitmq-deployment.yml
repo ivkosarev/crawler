@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  labels:
+    app: crawler
+    component: rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crawler
+      component: rabbitmq
+  template:
+    metadata:
+      name: rabbitmq
+      labels:
+        app: crawler
+        component: rabbitmq
+    spec:
+      containers:
+      - image: rabbitmq:3-management-alpine
+        name: rabbitmq
+        volumeMounts:
+        - name: rabbitmq-persistent-storage
+          mountPath: /var
+      volumes:
+      - name: rabbitmq-persistent-storage
+        emptyDir: {}
