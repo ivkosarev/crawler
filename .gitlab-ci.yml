@@ -4,7 +4,7 @@ stages:
 
 variables:
   TF_ROOT: ${CI_PROJECT_DIR}/k8s_yc_ci
- before_script:
+before_script:
    - cd ${TF_ROOT}
   
 build:
