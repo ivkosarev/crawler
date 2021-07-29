@@ -4,6 +4,7 @@ stages:
  - validate
  - build
  - deploy
+ - destroy
 
 test_crawler:
   stage: test
