@@ -109,9 +109,9 @@ Build_images_docker_images:
   script:
    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
    - docker build -t mzabolotnov/crawler:k8s_ci_1.0 src/crawler
-   - docker build -t mzabolotnov/crawler:k8s_ci_1.0 src/ui
+   - docker build -t mzabolotnov/ui:k8s_ci_1.0 src/ui
    - docker push mzabolotnov/crawler:k8s_ci_1.0
-   - docker push mzabolotnov/crawler:k8s_ci_1.0
+   - docker push mzabolotnov/ui:k8s_ci_1.0
   #  - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
    - docker images
   
