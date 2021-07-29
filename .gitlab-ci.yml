@@ -115,7 +115,7 @@ Start_crawler_dev:
 deploy_k8s:
   # image: gcr.io/cloud-builders/kubectl:latest
   image: mzabolotnov/kubectl:2.0
-  stage: test
+  stage: deploy
   before_script:
     - echo $KUBE_URL
     - echo $CI_PROJECT_DIR
@@ -140,20 +140,17 @@ deploy_k8s:
 destroy_k8s:
   # image: gcr.io/cloud-builders/kubectl:latest
   image: mzabolotnov/kubectl:2.0
-  stage: test
+  stage: detroy
   before_script:
     - echo $KUBE_URL
     - echo $CI_PROJECT_DIR
   script:
     - cd k8s_crawler/crawler
-    - pwd
     - echo $KUBE_URL
-    - echo $CI_PROJECT_DIR
     - kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true
     - kubectl config set-credentials admin --token="$KUBE_TOKEN"
     - kubectl config set-context default --cluster=k8s --user=admin
     - kubectl config use-context default
-    - kubectl config view
     - kubectl get pods
     # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
     - kubectl delete -f .
