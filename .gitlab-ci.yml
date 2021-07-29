@@ -141,7 +141,7 @@ deploy_k8s:
 destroy_k8s:
   # image: gcr.io/cloud-builders/kubectl:latest
   image: mzabolotnov/kubectl:2.0
-  stage: detroy
+  stage: destroy
   before_script:
     - echo $KUBE_URL
     - echo $CI_PROJECT_DIR
