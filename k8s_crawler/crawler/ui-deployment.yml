@@ -20,7 +20,7 @@ spec:
         component: ui
     spec:
       containers:
-      - image: mzabolotnov/ui:k8s_ci_1.0
+      - image: mzabolotnov/ui:k8s_1.0
         name: ui
         env:
         - name: MONGO
