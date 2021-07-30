@@ -86,17 +86,17 @@ Validate-docker-compose:
     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
   when: manual
 
-Build_images_docker_compose:
-  stage: build
-  services:
-   - docker:dind
-  before_script:
-   - docker info
-   - docker-compose --version
-  script:
-   - cd docker
-   - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
-   - docker images
+# Build_images_docker_compose:
+#   stage: build
+#   services:
+#    - docker:dind
+#   before_script:
+#    - docker info
+#    - docker-compose --version
+#   script:
+#    - cd docker
+#    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
+#    - docker images
   
   when: manual
 
@@ -155,8 +155,8 @@ deploy_k8s:
   environment:
       name: prod
       url: http://mikhza.twilightparadox.com/
-  only:
-    - k8s_yc_ci
+  # only:
+  #   - k8s_yc_ci
 
 destroy_k8s:
   # image: gcr.io/cloud-builders/kubectl:latest
@@ -177,5 +177,5 @@ destroy_k8s:
     - kubectl delete -f .
     - kubectl get pods
   when: manual
-  only:
-    - k8s_yc_ci
+  # only:
+  #   - k8s_yc_ci
