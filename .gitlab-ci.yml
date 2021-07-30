@@ -152,6 +152,9 @@ deploy_k8s:
     - kubectl apply -f .
     - kubectl get pods
   when: manual
+  environment:
+      name: prod
+      url: http://mikhza.twilightparadox.com/
   only:
     - k8s_yc_ci
 
