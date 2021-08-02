@@ -20,7 +20,7 @@ spec:
         component: crawler
     spec:
       containers:
-      - image: mzabolotnov/crawler:k8s_ci_2.0
+      - image: mzabolotnov/crawler:k8s_ci_a3.0
         name: crawler
         env:
         - name: MONGO

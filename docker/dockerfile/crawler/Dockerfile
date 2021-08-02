@@ -1,4 +1,4 @@
-FROM alexdo/python-2.4-alpine
+# FROM alexdo/python-2.4-alpine
 FROM python:3.6-alpine
 # FROM ubuntu:18.04
 
@@ -21,19 +21,7 @@ ENV EXCLUDE_URLS='.*github.com'
 
 ENV APP_HOME /app
 RUN git clone https://github.com/express42/search_engine_crawler.git $APP_HOME
-# RUN mkdir $APP_HOME
-
-# WORKDIR $APP_HOME
-# RUN git clone https://github.com/express42/search_engine_crawler.git
-# ADD ./tests $APP_HOME/test
-# ADD ./crawler $APP_HOME/crawler
-# ADD requirements.txt $APP_HOME/crawler
-
-# WORKDIR $APP_HOME/crawler
 WORKDIR $APP_HOME
-
-# RUN apt update -qq && apt install -y build-essential
-
 RUN pip install -r requirements.txt 
 
 #CMD bash

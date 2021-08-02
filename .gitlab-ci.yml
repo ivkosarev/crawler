@@ -12,7 +12,7 @@ test_crawler:
   #   - pwd
   #   - ls -al
   #   - ls -al ${CI_PROJECT_DIR}
-  image: mzabolotnov/test_crawler:1.0
+  image: mzabolotnov/test_crawler:2.0
   script:
     - cd $APP_HOME
     - git clone https://github.com/express42/search_engine_crawler.git
@@ -108,8 +108,8 @@ Build_images_docker_images:
    - docker info
   script:
    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
-   - docker build -t mzabolotnov/crawler:k8s_ci_2.0 src/crawler && docker push mzabolotnov/crawler:k8s_ci_2.0
-   - docker build -t mzabolotnov/ui:k8s_ci_2.0 src/ui && docker push mzabolotnov/ui:k8s_ci_2.0
+   - docker build -t mzabolotnov/crawler:k8s_ci_a3.0 docker/dockerfile/crawler && docker push mzabolotnov/crawler:k8s_ci_a3.0
+   - docker build -t mzabolotnov/ui:k8s_ci_a3.0 docker/dockerfile/ui && docker push mzabolotnov/ui:k8s_ci_a3.0
   #  - docker push mzabolotnov/crawler:k8s_ci_2.0
   #  - docker push mzabolotnov/ui:k8s_ci_2.0
   #  - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
