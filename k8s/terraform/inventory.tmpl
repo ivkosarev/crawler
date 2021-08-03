@@ -1,0 +1,4 @@
+[node]
+%{ for index, ip in ext_ip ~}
+node-${index} ansible_host=${ip} ansible_user=ubuntu ansible_private_key_file=${privat_key_path}
+%{ endfor ~}
