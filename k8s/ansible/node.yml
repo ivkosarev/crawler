@@ -56,5 +56,20 @@
         group: ubuntu
         mode: '0644'
 
+    - name: Copy data.yml
+      copy:
+        src: ../src/data.yml
+        dest: /home/ubuntu/data.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Copy ingress-grafana-prometheus.yml
+      copy:
+        src: ../src/ingress-grafana-prometheus.yml
+        dest: /home/ubuntu/ingress-grafana-prometheus.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
 
 

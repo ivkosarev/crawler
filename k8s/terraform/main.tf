@@ -33,7 +33,7 @@ resource "yandex_compute_disk" "disk-data" {
   
   type     = "network-ssd"
   zone     = "ru-central1-a"
-  size     = 20
+  size     = 35
 
   labels = {
     environment = "ssd2"
@@ -46,9 +46,8 @@ resource "yandex_compute_instance" "node" {
   name     = "node-${count.index}"
 
   resources {
-    cores         = 2
-    memory        = 4
-    core_fraction = 5
+    cores         = 4
+    memory        = 8
   }
 
   metadata = {
@@ -59,7 +58,7 @@ resource "yandex_compute_instance" "node" {
     initialize_params {
   
       image_id = var.image_id
-      size = 10
+      size = 20
     }
   }
   secondary_disk {
