@@ -1,0 +1,7 @@
+name: ui
+version: 1.0.0
+description: UI search engine
+maintainers:
+ - name: User
+   email: m.zabolotnov@mail.ru
+appVersion: 1.0

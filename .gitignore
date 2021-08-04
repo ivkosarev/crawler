@@ -12,3 +12,8 @@ inventory
 terraform_ansible/versions.tf
 docker/.env
 terraform/.terraform.tfstate.lock.info
+k8s_crawler/crawler/chart/app/Chart.lock
+k8s_crawler/crawler/chart/app/charts/crawler-1.0.0.tgz
+k8s_crawler/crawler/chart/app/charts/mongo-1.0.0.tgz
+k8s_crawler/crawler/chart/app/charts/rabbitmq-1.0.0.tgz
+k8s_crawler/crawler/chart/app/charts/ui-1.0.0.tgz

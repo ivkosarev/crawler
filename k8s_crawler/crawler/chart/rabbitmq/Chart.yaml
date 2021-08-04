@@ -1,0 +1,7 @@
+name: rabbitmq
+version: 1.0.0
+description: rabbitmq
+maintainers:
+ - name: User
+   email: m.zabolotnov@mail.ru
+appVersion: 1.0

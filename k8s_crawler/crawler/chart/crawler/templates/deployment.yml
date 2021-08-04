@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  labels:
+    app: crawler
+    component: crawler
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crawler
+      component: crawler
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      name: crawler-pod
+      labels:
+        app: crawler
+        component: crawler
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        name: crawler
+        env:
+        - name: MONGO
+          # value: {{ .Values.databasehost }}
+          value: {{ .Values.databasehost | default (printf "%s-mongo" .Release.Name) }}
+        - name: RMQ_HOST
+          value: {{ .Values.databasehost | default (printf "%s-rabbitmq" .Release.Name) }}
