@@ -256,7 +256,7 @@ destroy_k8s_prod:
     - kubectl get pods
     # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
     - helm ls
-    - helm unistall app
+    - helm uninstall app
     - kubectl delete -f .
     - kubectl get pods
   when: manual
