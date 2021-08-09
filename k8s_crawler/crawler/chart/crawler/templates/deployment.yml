@@ -7,6 +7,11 @@ metadata:
     app: crawler
     component: crawler
     release: {{ .Release.Name }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "8000"
+    prometheus.io/scheme: http
 spec:
   replicas: 1
   selector:

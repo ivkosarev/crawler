@@ -7,6 +7,11 @@ metadata:
     app: crawler
     component: ui
     release: {{ .Release.Name }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "8000"
+    prometheus.io/scheme: http
 spec:
   type: NodePort
   ports:
@@ -17,3 +22,6 @@ spec:
     app: crawler
     component: ui
     release: {{ .Release.Name }}
+  ports:
+  - name: uiport
+    port: {{ .Values.service.internalPort }}
