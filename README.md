@@ -17,14 +17,30 @@
 
 ## Сборка образов приложения
 
-Сборка и тестирование кода приложения происходит с использованием Alpine Linux, что позволяет существенно снизить размеры DockerImage. Dockerfile для сборки образов лежат в папке docker/dockerfile. Приложение состоит из двух компонеттов search_engine_crawler (docker/dockerfile/crawler/Dockerfile) и search_engine_ui (docker/dockerfile/ui/Dockerfile).  Также в папке docker/dockerfile расположен файл docker/dockerfile/testing/Dockerfile, используемый для сборки образа для тестирования приложения, и файл docker/dockerfile/yc_ci_kubectl_helm/Dockerfile исользуемый для развертывания приложения в кластере, представляющий докерфайл образа alpine linux с предустановленным helm и kubectl.
-Сборка образов приложения и проверка докерфайлов происходит в автоматическом режиме CI/CD Gitlab. Pipiline проверки 
- - Validate-docker-compose
+Сборка и тестирование кода приложения происходит с использованием Alpine Linux, что позволяет существенно снизить размеры DockerImage. Dockerfile для сборки образов лежат в папке docker/dockerfile. Приложение состоит из двух компонеттов search_engine_crawler (docker/dockerfile/crawler/Dockerfile) и search_engine_ui (docker/dockerfile/ui/Dockerfile).
+  Файл docker/dockerfile/testing/Dockerfile используется для сборки образа для тестирования приложения, файл docker/dockerfile/yc_ci_kubectl_helm/Dockerfile - для развертывания приложения в кластере и представляет собой докерфайл образа alpine linux с предустановленным helm и kubectl.
+Сборка образов приложения и проверка докерфайлов происходит в автоматическом режиме с использованием технологии CI/CD Gitlab.
+ Pipiline проверки корректности докерфайлов:
+ - Validate-dockerfile
+ Pipiline сборки образов приложения:
+ - Build_images_docker
+ Собраные образы mzabolotnov/crawler:k8s_ci_a3.0 и mzabolotnov/crawler:k8s_ci_a3.0 пушатся на DockerHub. В дальнейшем они будут использованы при деплое приложения
 
+ ## Тесты приложения
 
+ Для тестов кода приложения создан Pipeline
+  - test_crawler
+ Результаты тестов преставляют собой артефакт, который можно скачать.
 
+ ## Проверка кода Terrsform
+
+ Pipeline проверки кода терраформ
+ - terraform_plan 
+
+#### Разворачивание приложения происходит в двух окружениях dev и prod
 ### Разворачиваем окружение dev в кластере Kubernetes платформы YandexCloud
-Кластер для оружения dev собран вручную из двух нод. 
+Кластер для оружения dev собран вручную из двух нод.
+
 
 ### Разворачивание prod окружения на базе Kubernetes
 
