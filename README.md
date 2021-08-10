@@ -1,7 +1,34 @@
-здесь будет опиание подьема инфры одной коммандой
+***
+Crawler
+***
+ Здесь представлено как поднять сервис crawler с помощью docker+terraform+ansible.
+ Контейнеры:
+ 
+ 1.mongo_db
 
-из директории terraform_ansible
-terraform apply
+ 2.rabbitmq
+ 
+ 3.crawler
+ 
+ 4.ui
+ 
+ 5.prometheus
+ 
+ 6.node-exporter
+ 
+ 7.cadvisor
+***
 
-из директории ansible
-ansible-playbook site.yml
+Поднять докеры локально: cd docker && docker-compose up
+
+
+В Yandex.Cloud: cd terraform && terraform apply
+
+***
+Перед запуском надо в папке терраформа заполнить файл terraform.tfvars(пример в terraform.tfvars.example, вся инфа берется из вашего яндекс.клауда)
+
+
+В конце терраформ выплюнет в stdout айпишник тачки, либо его можно найти в своем compute cloud.
+
+На порту 8000 торчит веб-морда кравлера, оно даже чето там ищет.
+***
