@@ -22,6 +22,12 @@
 - Добавлен мониторинг кластера и приложения [geckonoff] (https://github.com/geckonoff)
 - Добавлено логирование EFK [geckonoff] (https://github.com/geckonoff)
 
+[0.0.5] - 2021-08-03
+
+### Added
+
+- Добавлена ветка с развертыванием кластера k8s в yc от [geckonoff] (https://github.com/geckonoff)
+
 [0.0.4] - 2021-07-15
 
 ### Added
