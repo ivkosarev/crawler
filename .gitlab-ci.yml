@@ -73,7 +73,7 @@ terraform_plan:
  when: manual
 
     
-Validate-docker-compose:
+Validate-dockerfile:
   stage: validate
   services:
     - docker:dind
@@ -82,7 +82,7 @@ Validate-docker-compose:
     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
   when: manual
 
-Build_images_docker_images:
+Build_images_docker:
   stage: build
   services:
    - docker:dind
