@@ -14,6 +14,13 @@
 ### Fixed
 
 - исправление ошибок
+[0.0.5] - 2021-08-20
+
+### Added
+
+- Добавлено dev окружение kubernetis [geckonoff] (https://github.com/geckonoff)
+- Добавлен мониторинг кластера и приложения [geckonoff] (https://github.com/geckonoff)
+- Добавлено логирование EFK [geckonoff] (https://github.com/geckonoff)
 
 [0.0.4] - 2021-07-15
 
