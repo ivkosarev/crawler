@@ -247,7 +247,10 @@ deploy_k8s_prod_helm:
   environment:
       name: prod
       url: http://mikhza-prod.twilightparadox.com/
+<<<<<<< HEAD
       
+=======
+>>>>>>> 41999f8a280efce7dbd07fd199ec336f1c95477c
 
 # destroy_k8s_dev:
 #   # image: gcr.io/cloud-builders/kubectl:latest
@@ -270,6 +273,7 @@ deploy_k8s_prod_helm:
 #   when: manual
 #   # only:
 #   #   - k8s_yc_ci
+<<<<<<< HEAD
 
 # destroy_k8s_prod:
 #   # image: gcr.io/cloud-builders/kubectl:latest
@@ -295,6 +299,33 @@ deploy_k8s_prod_helm:
 #   # only:
 #   #   - k8s_yc_ci
 
+=======
+
+# destroy_k8s_prod:
+#   # image: gcr.io/cloud-builders/kubectl:latest
+#   image: mzabolotnov/kubectl_helm:2.0
+#   stage: destroy
+#   before_script:
+#     - echo $KUBE_URL
+#     - echo $CI_PROJECT_DIR
+#   script:
+#     - cd k8s_crawler/crawler
+#     - echo $KUBE_URL
+#     - kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true
+#     - kubectl config set-credentials admin --token="$KUBE_TOKEN"
+#     - kubectl config set-context default --cluster=k8s --user=admin
+#     - kubectl config use-context default
+#     - kubectl get pods
+#     # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
+#     - helm ls
+#     - helm uninstall app
+#     - kubectl delete -f .
+#     - kubectl get pods
+#   when: manual
+#   # only:
+#   #   - k8s_yc_ci
+
+>>>>>>> 41999f8a280efce7dbd07fd199ec336f1c95477c
 destroy_k8s_dev_helm:
   # image: gcr.io/cloud-builders/kubectl:latest
   image: mzabolotnov/kubectl_helm:2.0
