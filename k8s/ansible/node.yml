@@ -1,0 +1,75 @@
+---
+- name: Configure control node 0
+  hosts: node-0
+  become: true
+  tasks:
+    - name: install
+      apt:
+        update_cache: yes
+        name: "{{ item }}"
+        state: present
+      loop:
+        - curl
+        - git
+        - gnupg
+        - python3-pip
+    
+    - name: Get git kubspray
+      git:
+        repo: https://github.com/kubernetes-incubator/kubespray.git
+        dest: /srv/kubespray
+        version: v2.16.0
+
+    - name: Install specified python requirements
+      pip:
+        requirements: /srv/kubespray/requirements.txt
+
+    - name: Copy addons.yml
+      copy:
+        src: ../src/addons.yml
+        dest: /srv/kubespray/inventory/sample/group_vars/k8s_cluster/addons.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Copy hosts.ini
+      copy:
+        src: ../src/hosts.ini
+        dest: /srv/kubespray/inventory/sample/hosts.ini
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Copy id_rsa
+      copy:
+        src: ~/.ssh/id_rsa
+        dest: /home/ubuntu/.ssh/id_rsa
+        owner: ubuntu
+        group: ubuntu
+        mode: '0600'
+
+    - name: Copy id_rsa.pub
+      copy:
+        src: ~/.ssh/id_rsa.pub
+        dest: /home/ubuntu/.ssh/id_rsa.pub
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Copy data.yml
+      copy:
+        src: ../src/data.yml
+        dest: /home/ubuntu/data.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Copy ingress-grafana-prometheus.yml
+      copy:
+        src: ../src/ingress-grafana-prometheus.yml
+        dest: /home/ubuntu/ingress-grafana-prometheus.yml
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+

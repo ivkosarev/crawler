@@ -3,6 +3,7 @@
 */usr1
 */terraform.tfvars
 */.terraform
+*/terraform/.terraform/
 */.terraform/*
 */terraform.tfstate
 */terraform.tfstate.backup
@@ -17,3 +18,7 @@ k8s_crawler/crawler/chart/app/charts/crawler-1.0.0.tgz
 k8s_crawler/crawler/chart/app/charts/mongo-1.0.0.tgz
 k8s_crawler/crawler/chart/app/charts/rabbitmq-1.0.0.tgz
 k8s_crawler/crawler/chart/app/charts/ui-1.0.0.tgz
+hosts.ini
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
