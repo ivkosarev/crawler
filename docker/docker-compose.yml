@@ -22,7 +22,7 @@ services:
         ipv4_address: 10.0.2.3
 
   ui:
-    build: ../src/ui/
+    build: ../docker/dockerfile/ui/
     depends_on:
       - mongo_db
     ports:
@@ -32,7 +32,7 @@ services:
         ipv4_address: 10.0.2.5
 
   crawler:
-     build: ../src/crawler/
+     build: ../docker/dockerfile/crawler/
      restart: always
      depends_on:
       - mongo_db

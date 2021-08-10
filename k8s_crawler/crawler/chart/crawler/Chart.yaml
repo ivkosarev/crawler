@@ -1,0 +1,7 @@
+name: crawler
+version: 1.0.0
+description: search engine
+maintainers:
+ - name: User
+   email: m.zabolotnov@mail.ru
+appVersion: 1.0

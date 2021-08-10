@@ -1,0 +1,9 @@
+# service:
+#  internalPort: 8000
+#  externalPort: 8000
+# image:
+#  repository: mzabolotnov/ui
+#  tag: k8s_ci_a3.0
+# hostname: mikhza.twilightparadox.com
+# # databasehost: crawler-db
+# databasehost:

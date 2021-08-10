@@ -1,0 +1,8 @@
+service:
+ internalPort: 8000
+ externalPort: 8000
+image:
+ repository: mzabolotnov/crawler
+ tag: k8s_ci_a3.0
+# databasehost: crawler-db
+databasehost:

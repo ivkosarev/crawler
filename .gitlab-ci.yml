@@ -8,11 +8,7 @@ stages:
 
 test_crawler:
   stage: test
-  # after_script:
-  #   - pwd
-  #   - ls -al
-  #   - ls -al ${CI_PROJECT_DIR}
-  image: mzabolotnov/test_crawler:1.0
+  image: mzabolotnov/test_crawler:2.0
   script:
     - cd $APP_HOME
     - git clone https://github.com/express42/search_engine_crawler.git
@@ -86,20 +82,6 @@ Validate-docker-compose:
     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
   when: manual
 
-# Build_images_docker_compose:
-#   stage: build
-#   services:
-#    - docker:dind
-#   before_script:
-#    - docker info
-#    - docker-compose --version
-#   script:
-#    - cd docker
-#    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
-#    - docker images
-  
-  when: manual
-
 Build_images_docker_images:
   stage: build
   services:
@@ -108,8 +90,8 @@ Build_images_docker_images:
    - docker info
   script:
    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
-   - docker build -t mzabolotnov/crawler:k8s_ci_2.0 src/crawler && docker push mzabolotnov/crawler:k8s_ci_2.0
-   - docker build -t mzabolotnov/ui:k8s_ci_2.0 src/ui && docker push mzabolotnov/ui:k8s_ci_2.0
+   - docker build -t mzabolotnov/crawler:k8s_ci_a3.0 docker/dockerfile/crawler && docker push mzabolotnov/crawler:k8s_ci_a3.0
+   - docker build -t mzabolotnov/ui:k8s_ci_a3.0 docker/dockerfile/ui && docker push mzabolotnov/ui:k8s_ci_a3.0
   #  - docker push mzabolotnov/crawler:k8s_ci_2.0
   #  - docker push mzabolotnov/ui:k8s_ci_2.0
   #  - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
@@ -117,22 +99,41 @@ Build_images_docker_images:
   
   when: manual
 
-Start_crawler_dev:
-   stage: deploy
-   services:
-   - docker:dind
-   script:
-     - cd docker
-     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml up -d
-     - docker ps
-   when: manual
-   environment:
-      name: branch/$CI_COMMIT_REF_NAME
-      url: http://$CI_ENVIRONMENT_SLUG.example.com:8000
 
-deploy_k8s:
+
+deploy_k8s_dev_helm:
   # image: gcr.io/cloud-builders/kubectl:latest
-  image: mzabolotnov/kubectl:2.0
+  image: mzabolotnov/kubectl_helm:2.0
+  stage: deploy
+  before_script:
+    - echo $KUBE_URL_DEV
+    - echo $CI_PROJECT_DIR
+  script:
+    - cd k8s_crawler/crawler
+    - pwd
+    - echo $KUBE_URL_DEV
+    - echo $CI_PROJECT_DIR
+    - kubectl config set-cluster k8s --server="$KUBE_URL_DEV" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --token="$KUBE_TOKEN_DEV"
+    - kubectl config set-context default --cluster=k8s --user=admin
+    - kubectl config use-context default
+    - kubectl config view
+    - kubectl get nodes
+    # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
+    - helm dep update chart/app
+    - helm upgrade app chart/app --install
+    # - kubectl apply -f .
+    - echo "Pause 10 сек..."
+    - sleep 10
+    - kubectl get pods
+  when: manual
+  environment:
+      name: dev
+      url: http://mikhza.twilightparadox.com/
+
+deploy_k8s_prod_helm:
+  # image: gcr.io/cloud-builders/kubectl:latest
+  image: mzabolotnov/kubectl_helm:2.0
   stage: deploy
   before_script:
     - echo $KUBE_URL
@@ -148,19 +149,44 @@ deploy_k8s:
     - kubectl config use-context default
     - kubectl config view
     - kubectl get nodes
-    # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
-    - kubectl apply -f .
+    - sed -i "s/mikhza.twilightparadox.com/mikhza-prod.twilightparadox.com/" chart/ui/values.yaml
+    - cat chart/ui/values.yaml
+    - helm dep update chart/app
+    - helm upgrade app chart/app --install
+    # - kubectl apply -f .
+    - echo "Pause 10 сек..."
+    - sleep 10
     - kubectl get pods
   when: manual
   environment:
       name: prod
-      url: http://mikhza.twilightparadox.com/
-  # only:
-  #   - k8s_yc_ci
+      url: http://mikhza-prod.twilightparadox.com/
 
-destroy_k8s:
+destroy_k8s_dev_helm:
   # image: gcr.io/cloud-builders/kubectl:latest
-  image: mzabolotnov/kubectl:2.0
+  image: mzabolotnov/kubectl_helm:2.0
+  stage: destroy
+  before_script:
+    - echo $KUBE_URL_DEV
+    - echo $CI_PROJECT_DIR
+  script:
+    - cd k8s_crawler/crawler
+    - echo $KUBE_URL_DEV
+    - kubectl config set-cluster k8s --server="$KUBE_URL_DEV" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --token="$KUBE_TOKEN_DEV"
+    - kubectl config set-context default --cluster=k8s --user=admin
+    - kubectl config use-context default
+    - kubectl get pods
+    # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
+    - helm ls
+    - helm uninstall app
+    - sleep 20
+    - kubectl get pods
+  when: manual
+
+destroy_k8s_prod_helm:
+  # image: gcr.io/cloud-builders/kubectl:latest
+  image: mzabolotnov/kubectl_helm:2.0
   stage: destroy
   before_script:
     - echo $KUBE_URL
@@ -174,8 +200,7 @@ destroy_k8s:
     - kubectl config use-context default
     - kubectl get pods
     # - sed -i "s/__VERSION__/gitlab-$CI_COMMIT_SHORT_SHA/" k8s.yaml
-    - kubectl delete -f .
+    - helm ls
+    - helm uninstall app
     - kubectl get pods
   when: manual
-  # only:
-  #   - k8s_yc_ci
