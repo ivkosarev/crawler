@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crawler
+  labels:
+    app: crawler
+    component: crawler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crawler
+      component: crawler
+  template:
+    metadata:
+      name: crawler-pod
+      labels:
+        app: crawler
+        component: crawler
+    spec:
+      containers:
+      - image: mzabolotnov/crawler:k8s_ci_a3.0
+        name: crawler
+        env:
+        - name: MONGO
+          value: crawler-db

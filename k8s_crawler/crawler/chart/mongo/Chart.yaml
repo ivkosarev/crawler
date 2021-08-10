@@ -1,0 +1,7 @@
+name: mongo
+version: 1.0.0
+description: mongo
+maintainers:
+ - name: User
+   email: m.zabolotnov@mail.ru
+appVersion: 1.0
