@@ -17,7 +17,7 @@
 
 ## Сборка образов приложения
 
-Сборка и тестирование кода приложения происходит с использованием Alpine Linux, что позволяет существенно снизить размеры DockerImage. Dockerfile для сборки образов лежат в папке docker/dockerfile. Приложение состоит из двух компонеттов search_engine_crawler (docker/dockerfile/crawler/Dockerfile) и search_engine_ui (docker/dockerfile/ui/Dockerfile).
+Сборка и тестирование кода приложения происходит с использованием Alpine Linux, что позволяет существенно снизить размеры DockerImage. Dockerfile для сборки образов лежат в папке docker/dockerfile. Приложение состоит из двух компонеттов search_engine_crawler https://github.com/express42/search_engine_crawler.git (docker/dockerfile/crawler/Dockerfile) и search_engine_ui  https://github.com/express42/search_engine_ui.git (docker/dockerfile/ui/Dockerfile).
   Файл docker/dockerfile/testing/Dockerfile используется для сборки образа для тестирования приложения, файл docker/dockerfile/yc_ci_kubectl_helm/Dockerfile - для развертывания приложения в кластере и представляет собой докерфайл образа alpine linux с предустановленным helm и kubectl.
 Сборка образов приложения и проверка докерфайлов происходит в автоматическом режиме с использованием технологии CI/CD Gitlab.
  
@@ -39,7 +39,8 @@
  ## Проверка кода Terraform
 
  Pipeline проверки кода терраформ
- - terraform_plan 
+ - terraform_plan
+ - k8s_terraform_plan 
 
 #### Разворачивание приложения происходит в двух окружениях dev и prod
 
@@ -92,6 +93,9 @@
 - IP-третьей-ноды grafana.mydomain.io
 
 ## Деплой приложение crawler в двух окружениях dev и prod
+
+деплой приложения в кластер производится и хелм чарта k8s_crawler/crawler/chart/app.
+helm upgrade app k8s_crawler/crawler/chart/app --install
 
 #### DEV
 
