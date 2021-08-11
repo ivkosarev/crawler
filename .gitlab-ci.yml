@@ -72,20 +72,20 @@ terraform_plan:
       terraform: ${TF_ROOT}/plan.json
  when: manual
 
- k8s_terraform_plan:
+k8s_terraform_plan:
  stage: test
  image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
- cache:
-    key: example-production
-    paths:
-      - ${TF_ROOT}/.terraform
+#  cache:
+#     key: example-production
+#     paths:
+#       - ${TF_ROOT}/.terraform
  variables:
   TF_ROOT: ${CI_PROJECT_DIR}/k8s/terraform
-  TF_ADDRESS: ${CI_API_V4_URL}/projects/${TF_ROOT}
+  # TF_ADDRESS: ${CI_API_V4_URL}/projects/${TF_ROOT}
  before_script:
    - cd ${TF_ROOT}
    - ls -la
-   - echo ${CI_API_V4_URL}
+  #  - echo ${CI_API_V4_URL}
    - echo ${CI_PROJECT_DIR}
    - echo ${CI_PROJECT_ID}
  script:
@@ -96,13 +96,13 @@ terraform_plan:
     - touch id_rsa.pub
     - touch id_rsa
     - gitlab-terraform plan
-    - gitlab-terraform plan-json
- artifacts:
-    name: plan
-    paths:
-      - ${TF_ROOT}/plan.cache
-    reports:
-      terraform: ${TF_ROOT}/plan.json
+    # - gitlab-terraform plan-json
+#  artifacts:
+#     name: plan
+#     paths:
+#       - ${TF_ROOT}/plan.cache
+#     reports:
+#       terraform: ${TF_ROOT}/plan.json
  when: manual
 
     
