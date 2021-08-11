@@ -69,7 +69,13 @@ $KUBE_URL и $KUBE_TOKEN
 - `helm repo update`
 - `helm install ingress-nginx ingress-nginx/ingress-nginx`
 Разворачиваем с использования хельм чарта bitnami/Prometheus
-- `helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo update && helm install prom-app bitnami/kube-prometheus -f k8s_crawler/monitoring/values.yaml`
+- `helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo update && helm install prom-app bitnami/kube-prometheus -f k8s_crawler/monitoring/prometheus/values.yaml`
+Разворачиваем с использования хельм чарта bitnami/Grafana
+- `helm install grafana-app bitnami/grafana -f k8s_crawler/monitoring/grafana/values.yaml`
+Dashboard для мониторинга кластера
+- k8s_crawler/monitoring/grafana/kubernetes-cluster-monitoring-via-prometheus_rev3.json - взято отсюда https://grafana.com/grafana/dashboards/315
+Dashboard для мониторинга приложения
+- k8s_crawler/monitoring/grafana/Crawler dashboard_rev1.json
 
 ## Разворачивание prod окружения на базе Kubernetes
 
@@ -127,14 +133,15 @@ Pipeline удаления приложения из dev
 
 URL: http://mikhza-prod.twilightparadox.com/
 Prometheus URL: http://prometheus.crawler
+Grafana URL: http://grafana.crawler
 
 #### PROD
 
 Деплой приложения происходит в автоматическом режиме с использованием технологии CI/CD GitLab
 
-Pipeline деплоя в dev
+Pipeline деплоя в prod
 - deploy_k8s_prod_helm
-Pipeline удаления приложения из dev
+Pipeline удаления приложения из prod
 - destroy_k8s_prod_helm
 
 URL: http://mikhza-prod.twilightparadox.com/
