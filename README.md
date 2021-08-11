@@ -42,8 +42,27 @@
  - terraform_plan
  - k8s_terraform_plan 
 
-#### Разворачивание приложения происходит в двух окружениях dev и prod
+#### Разворачивание приложения происходит в двух окружениях dev и prod (два кластера kubernetes)
+## Подключение GitLab к кластерам Kubernetes (общий подход)
+В настройка GitLab CI/CD задано две переменные
+$KUBE_URL и $KUBE_TOKEN
 
+- `KUBE_URL=$(kubectl cluster-info | grep -E 'Kubernetes master|Kubernetes control plane' | awk '/http/ {print $NF}')`
+
+Далее создаем сервис-аккаунт gitlab в кластере
+
+- `kubectl apply -f k8s_yc_ci/gitlab-admin-service-account.yaml`
+
+Определяем токен доступа
+
+- `KUBE_TOKEN=$(kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep gitlab | awk '{print $1}') | grep token: | awk '{print $2}')`
+
+Далее подключаемся
+
+- `kubectl config set-cluster k8s --server="$KUBE_URL" --insecure-skip-tls-verify=true`
+- `kubectl config set-credentials admin --token="$KUBE_TOKEN"`
+- `kubectl config set-context default --cluster=k8s --user=admin`
+- `kubectl config use-context default`
 ## Разворачиваем окружение dev в кластере Kubernetes платформы YandexCloud
 Кластер для окружения dev собран вручную из двух нод. Устанавливаем nginx ingress
 - `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`
