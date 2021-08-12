@@ -846,8 +846,58 @@ prometheus:
   ##             summary: "Node overtemperature alarm (instance {{ $labels.instance }})"
   ##             description: "Physical node temperature alarm triggered\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
   ##
-  additionalPrometheusRules: []
-  ## Note that the prometheus will fail to provision if the correct secret does not exist.
+  additionalPrometheusRules:
+  # - name: custom-recording-rules
+  #   groups:
+  #     - name: sum_node_by_job
+  #       rules:
+  #         - record: job:kube_node_labels:sum
+  #           expr: sum(kube_node_labels) by (job)
+  #     - name: sum_prometheus_config_reload_by_pod
+  #       rules:
+  #         - record: job:prometheus_config_last_reload_successful:sum
+  #           expr: sum(prometheus_config_last_reload_successful) by (pod)
+  - name: custom-alerting-rules
+    groups:
+      - name: DownDown
+        rules:
+         - alert: InstanceDown
+           expr: up == 0
+           for: 1m
+           labels:
+             severity: page
+           annotations:
+            description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute'
+            summary: 'Instance {{ $labels.instance }} down'
+      - name: prometheus-config
+        rules:
+          - alert: PrometheusConfigurationReload
+            expr: prometheus_config_last_reload_successful > 0
+            for: 1m
+            labels:
+              severity: error
+            annotations:
+              summary: "Prometheus configuration reload (instance {{ $labels.instance }})"
+              description: "Prometheus configuration reload error\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+      - name: custom-node-exporter-alerting-rules
+        rules:
+          - alert: PhysicalComponentTooHot
+            expr: node_hwmon_temp_celsius > 75
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "Physical component too hot (instance {{ $labels.instance }})"
+              description: "Physical hardware component too hot\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+          - alert: NodeOvertemperatureAlarm
+            expr: node_hwmon_temp_alarm == 1
+            for: 5m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Node overtemperature alarm (instance {{ $labels.instance }})"
+              description: "Physical node temperature alarm triggered\n  VALUE = {{ $value }}\n  LABELS: {{ $labels }}"
+## Note that the prometheus will fail to provision if the correct secret does not exist.
   ## @param prometheus.additionalScrapeConfigs.enabled Enable additional scrape configs
   ## @param prometheus.additionalScrapeConfigs.type Indicates if the cart should use external additional scrape configs or internal configs
   ## @param prometheus.additionalScrapeConfigs.external.name Name of the secret that Prometheus should use for the additional external scrape configuration
@@ -1230,7 +1280,7 @@ alertmanager:
   ingress:
     ## @param alertmanager.ingress.enabled Enable ingress controller resource
     ##
-    enabled: false
+    enabled: true
     ## @param alertmanager.ingress.certManager Add annotations for cert-manager
     ##
     certManager: false
@@ -1242,7 +1292,7 @@ alertmanager:
     apiVersion: ""
     ## @param alertmanager.ingress.hostname Default host for the ingress resource
     ##
-    hostname: alertmanager.local
+    hostname: alertmanager.crawler
     ## @param alertmanager.ingress.path The Path to Alert Manager. You may need to set this to '/*' in order to use this with ALB ingress controllers.
     ##
     path: /

@@ -73,7 +73,10 @@ $KUBE_URL и $KUBE_TOKEN
 Разворачиваем с использования хельм чарта bitnami/Grafana
 - `helm install grafana-app bitnami/grafana -f k8s_crawler/monitoring/grafana/values.yaml`
 Dashboard для мониторинга кластера
-- k8s_crawler/monitoring/grafana/kubernetes-cluster-monitoring-via-prometheus_rev3.json - взято отсюда https://grafana.com/grafana/dashboards/315
+- k8s_crawler/monitoring/grafana/kubernetes-cluster-monitoring-via-prometheus_rev3.json
+- k8s_crawler/monitoring/grafana/deployment-metrics_rev1.json
+  взято отсюда https://grafana.com/grafana/dashboards/315
+
 Dashboard для мониторинга приложения
 - k8s_crawler/monitoring/grafana/Crawler dashboard_rev1.json
 
@@ -134,6 +137,7 @@ Pipeline удаления приложения из dev
 URL: http://mikhza-prod.twilightparadox.com/
 Prometheus URL: http://prometheus.crawler
 Grafana URL: http://grafana.crawler
+Alertmanager: http://alertmanager.crawler
 
 #### PROD
 
