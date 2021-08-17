@@ -20,9 +20,6 @@
 Сборка и тестирование кода приложения происходит с использованием Alpine Linux, что позволяет существенно снизить размеры DockerImage. Dockerfile для сборки образов лежат в папке docker/dockerfile. Приложение состоит из двух компонеттов search_engine_crawler https://github.com/express42/search_engine_crawler.git (docker/dockerfile/crawler/Dockerfile) и search_engine_ui  https://github.com/express42/search_engine_ui.git (docker/dockerfile/ui/Dockerfile).
   Файл docker/dockerfile/testing/Dockerfile используется для сборки образа для тестирования приложения, файл docker/dockerfile/yc_ci_kubectl_helm/Dockerfile - для развертывания приложения в кластере и представляет собой докерфайл образа alpine linux с предустановленным helm и kubectl.
 Сборка образов приложения и проверка докерфайлов происходит в автоматическом режиме с использованием технологии CI/CD Gitlab.
- 
- Pipiline проверки корректности докерфайлов:
- - Validate-dockerfile
 
  Pipiline сборки образов приложения:
  - Build_images_docker
@@ -35,12 +32,27 @@
   - test_crawler
   
  Результаты тестов преставляют собой артефакт, который можно скачать.
+ Данный пайплайн не активен для ветки main
 
  ## Проверка кода Terraform
 
  Pipeline проверки кода терраформ
- - terraform_plan
- - k8s_terraform_plan 
+ - k8s_terraform_plan_dev
+ - k8s_terraform_plan_prod
+ Данные пайплайны не актифны, если изменения не затрагивают папки k8s_crawler/terraform_k8s и k8s/terraform соответственно
+
+ ## Деплой и удаление приложения в/из кластера
+
+Pipeline деплоя и удаления приложения в окружение DEV
+- deploy_k8s_dev_helm
+- destroy_k8s_dev_helm
+активен на всех ветках кроме main
+
+Pipeline деплоя и удаления приложения в окружение PROD
+- deploy_k8s_prod_helm
+- destroy_k8s_prod_helm
+активен на ветке main
+
 
 #### Разворачивание приложения происходит в двух окружениях dev и prod (два кластера kubernetes)
 ## Подключение GitLab к кластерам Kubernetes (общий подход)
