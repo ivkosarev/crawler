@@ -1,7 +1,7 @@
 image: tmaier/docker-compose:latest
 stages:
  - test
- - validate
+#  - validate
  - build
  - deploy
  - destroy
@@ -72,38 +72,6 @@ k8s_terraform_plan_dev:
       terraform: ${TF_ROOT}/plan.json
  when: manual
 
-# terraform_plan:
-#  stage: test
-#  image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
-#  cache:
-#     key: example-production
-#     paths:
-#       - ${TF_ROOT}/.terraform
-#  variables:
-#   TF_ROOT: ${CI_PROJECT_DIR}/terraform
-#   TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform
-#  before_script:
-#    - cd ${TF_ROOT}
-#    - ls -la
-#    - echo ${CI_API_V4_URL}
-#    - echo ${CI_PROJECT_DIR}
-#    - echo ${CI_PROJECT_ID}
-#  script:
-#     - gitlab-terraform init
-#     - gitlab-terraform validate
-#     - mv terraform.tfvars.example terraform.tfvars
-#     - mv key.json.example key.json
-#     - touch usr1.pub
-#     - touch usr1
-#     - gitlab-terraform plan
-#     - gitlab-terraform plan-json
-#  artifacts:
-#     name: plan
-#     paths:
-#       - ${TF_ROOT}/plan.cache
-#     reports:
-#       terraform: ${TF_ROOT}/plan.json
-#  when: manual
 
 k8s_terraform_plan_prod:
  stage: test
@@ -139,14 +107,14 @@ k8s_terraform_plan_prod:
  when: manual
 
     
-Validate-dockerfile:
-  stage: validate
-  services:
-    - docker:dind
-  script:
-    - cd ./docker
-    - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
-  when: manual
+# Validate-dockerfile:
+#   stage: validate
+#   services:
+#     - docker:dind
+#   script:
+#     - cd ./docker
+#     - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml config
+#   when: manual
 
 Build_images_docker:
   stage: build
