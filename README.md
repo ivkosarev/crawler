@@ -51,7 +51,7 @@ $KUBE_URL и $KUBE_TOKEN
 
 Далее создаем сервис-аккаунт gitlab в кластере
 
-- `kubectl apply -f k8s_yc_ci/gitlab-admin-service-account.yaml`
+- `kubectl apply -f k8s_crawler/gitlab/gitlab-admin-service-account.yaml`
 
 Определяем токен доступа
 

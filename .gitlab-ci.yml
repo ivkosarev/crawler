@@ -70,7 +70,10 @@ k8s_terraform_plan_dev:
       - ${TF_ROOT}/plan.cache
     reports:
       terraform: ${TF_ROOT}/plan.json
- when: manual
+ only:
+    changes:
+      - k8s_crawler/terraform_k8s
+#  when: manual
 
 
 k8s_terraform_plan_prod:
@@ -104,7 +107,11 @@ k8s_terraform_plan_prod:
 #       - ${TF_ROOT}/plan.cache
 #     reports:
 #       terraform: ${TF_ROOT}/plan.json
- when: manual
+ only:
+    changes:
+      - k8s/terraform
+#  when: manual
+
 
     
 # Validate-dockerfile:
@@ -126,12 +133,11 @@ Build_images_docker:
    - docker login -u $DOCKER_HUB_LOGIN -p $DOCKER_HUB_PASSWORD
    - docker build -t mzabolotnov/crawler:k8s_ci_a3.0 docker/dockerfile/crawler && docker push mzabolotnov/crawler:k8s_ci_a3.0
    - docker build -t mzabolotnov/ui:k8s_ci_a3.0 docker/dockerfile/ui && docker push mzabolotnov/ui:k8s_ci_a3.0
-  #  - docker push mzabolotnov/crawler:k8s_ci_2.0
-  #  - docker push mzabolotnov/ui:k8s_ci_2.0
-  #  - docker-compose -f docker-compose-monitoring.yml -f docker-compose.yml build
    - docker images
-  
-  when: manual
+  only:
+    changes:
+      - docker/dockerfile
+  # when: manual
 
 
 
