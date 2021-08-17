@@ -30,7 +30,8 @@ test_crawler:
     - coverage run -m unittest discover -s tests/
     - coverage report --include ui/ui.py > $APP_HOME/report_test_search_engine_ui.txt
     - cp -f $APP_HOME/report_test_search_engine_ui.txt ${CI_PROJECT_DIR}
-  
+  except:
+    - main
   when: manual
 
   artifacts:
@@ -167,6 +168,8 @@ deploy_k8s_dev_helm:
     - sleep 10
     - kubectl get pods
   when: manual
+  except:
+    - main
   environment:
       name: dev
       url: http://mikhza.twilightparadox.com/
@@ -198,6 +201,8 @@ deploy_k8s_prod_helm:
     - sleep 10
     - kubectl get pods
   when: manual
+  only:
+    - main
   environment:
       name: prod
       url: http://mikhza-prod.twilightparadox.com/
@@ -222,6 +227,8 @@ destroy_k8s_dev_helm:
     - helm uninstall app
     - sleep 20
     - kubectl get pods
+  except:
+    - main
   when: manual
 
 destroy_k8s_prod_helm:
@@ -243,4 +250,6 @@ destroy_k8s_prod_helm:
     - helm ls
     - helm uninstall app
     - kubectl get pods
+  only:
+    - main
   when: manual
