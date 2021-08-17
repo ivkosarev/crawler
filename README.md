@@ -67,13 +67,15 @@ $KUBE_URL и $KUBE_TOKEN
 Кластер для окружения dev создан при помощи terraform. 
 - `cd k8s_crawler/terraform_k8s && terraform apply`
 Устанавливаем nginx ingress
+- `kubectl create ns ingress`
 - `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`
 - `helm repo update`
-- `helm install ingress-nginx ingress-nginx/ingress-nginx`
+- `helm install ingress-nginx ingress-nginx/ingress-nginx -n ingress`
 Разворачиваем с использования хельм чарта bitnami/Prometheus
-- `helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo update && helm install prom-app bitnami/kube-prometheus -f k8s_crawler/monitoring/prometheus/values.yaml`
+- `kubectl create ns monitoring`
+- `helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo update && helm install prom-app bitnami/kube-prometheus -f k8s_crawler/monitoring/prometheus/values.yaml -n monitoring`
 Разворачиваем с использования хельм чарта bitnami/Grafana
-- `helm install grafana-app bitnami/grafana -f k8s_crawler/monitoring/grafana/values.yaml`
+- `helm install grafana-app bitnami/grafana -f k8s_crawler/monitoring/grafana/values.yaml -n monitoring`
 Dashboard для мониторинга кластера
 - k8s_crawler/monitoring/grafana/kubernetes-cluster-monitoring-via-prometheus_rev3.json
 - k8s_crawler/monitoring/grafana/deployment-metrics_rev1.json
