@@ -64,7 +64,9 @@ $KUBE_URL и $KUBE_TOKEN
 - `kubectl config set-context default --cluster=k8s --user=admin`
 - `kubectl config use-context default`
 ## Разворачиваем окружение dev в кластере Kubernetes платформы YandexCloud
-Кластер для окружения dev собран вручную из двух нод. Устанавливаем nginx ingress
+Кластер для окружения dev создан при помощи terraform. 
+- `cd k8s_crawler/terraform_k8s && terraform apply`
+Устанавливаем nginx ingress
 - `helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx`
 - `helm repo update`
 - `helm install ingress-nginx ingress-nginx/ingress-nginx`
